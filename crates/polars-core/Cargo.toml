@@ -28,8 +28,8 @@ strings = ["regex", "polars-arrow/strings", "arrow/compute_substring", "polars-e
 # support for ObjectChunked<T> (downcastable Series of any type)
 object = ["serde_json"]
 
-fmt = ["comfy-table/tty"]
-fmt_no_tty = ["comfy-table"]
+#fmt = ["comfy-table/tty"]
+#fmt_no_tty = ["comfy-table"]
 
 # opt-in features
 # sort by multiple columns

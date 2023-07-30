@@ -7,7 +7,7 @@ use once_cell::sync::Lazy;
 use polars::df;
 use polars::prelude::{DataFrame, *};
 use polars::sql::SQLContext;
-use reedline::{FileBackedHistory, Reedline, Signal};
+# use reedline::{FileBackedHistory, Reedline, Signal};
 
 #[cfg(feature = "highlight")]
 use crate::highlighter::SQLHighlighter;
@@ -140,13 +140,14 @@ impl TryFrom<(&str, &str)> for PolarsCommand {
 }
 
 pub(super) fn run_tty(output_mode: OutputMode) -> std::io::Result<()> {
-    let history = Box::new(
-        FileBackedHistory::with_file(100, get_history_path())
-            .expect("Error configuring history with file"),
-    );
+    todo!();
+    // let history = Box::new(
+    //     FileBackedHistory::with_file(100, get_history_path())
+    //         .expect("Error configuring history with file"),
+    // );
 
-    let mut line_editor = Reedline::create().with_history(history);
-
+    // let mut line_editor = Reedline::create().with_history(history);
+    todo!();
     #[cfg(feature = "highlight")]
     {
         let sql_highlighter = SQLHighlighter {};
@@ -162,50 +163,50 @@ pub(super) fn run_tty(output_mode: OutputMode) -> std::io::Result<()> {
     let mut is_exit_cmd = false;
     let mut scratch = String::with_capacity(1024);
 
-    loop {
-        let sig = line_editor.read_line(&prompt);
-        match sig {
-            Ok(Signal::Success(buffer)) => {
-                is_exit_cmd = false;
-                match buffer.as_str() {
-                    special_cmd if buffer.starts_with('.') => {
-                        let cmd: PolarsCommand = special_cmd
-                            .split_at(special_cmd.find(' ').unwrap_or(special_cmd.len()))
-                            .try_into()?;
+    // loop {
+    //     let sig = line_editor.read_line(&prompt);
+    //     match sig {
+    //         Ok(Signal::Success(buffer)) => {
+    //             is_exit_cmd = false;
+    //             match buffer.as_str() {
+    //                 special_cmd if buffer.starts_with('.') => {
+    //                     let cmd: PolarsCommand = special_cmd
+    //                         .split_at(special_cmd.find(' ').unwrap_or(special_cmd.len()))
+    //                         .try_into()?;
 
-                        if let PolarsCommand::Exit = cmd {
-                            break;
-                        };
+    //                     if let PolarsCommand::Exit = cmd {
+    //                         break;
+    //                     };
 
-                        cmd.execute_and_print(&mut context)
-                    }
-                    _ => {
-                        let mut parts = buffer.splitn(2, ';');
-                        let first = parts.next().unwrap();
-                        scratch.push_str(first);
+    //                     cmd.execute_and_print(&mut context)
+    //                 }
+    //                 _ => {
+    //                     let mut parts = buffer.splitn(2, ';');
+    //                     let first = parts.next().unwrap();
+    //                     scratch.push_str(first);
 
-                        let second = parts.next();
-                        if second.is_some() {
-                            output_mode.execute_query(&scratch, &mut context);
-                            scratch.clear();
-                        } else {
-                            scratch.push(' ');
-                        }
-                    }
-                }
-            }
-            Ok(Signal::CtrlD) | Ok(Signal::CtrlC) => {
-                if is_exit_cmd {
-                    break;
-                } else {
-                    is_exit_cmd = true;
-                }
-            }
-            _ => {
-                is_exit_cmd = false;
-            }
-        }
-    }
+    //                     let second = parts.next();
+    //                     if second.is_some() {
+    //                         output_mode.execute_query(&scratch, &mut context);
+    //                         scratch.clear();
+    //                     } else {
+    //                         scratch.push(' ');
+    //                     }
+    //                 }
+    //             }
+    //         }
+    //         Ok(Signal::CtrlD) | Ok(Signal::CtrlC) => {
+    //             if is_exit_cmd {
+    //                 break;
+    //             } else {
+    //                 is_exit_cmd = true;
+    //             }
+    //         }
+    //         _ => {
+    //             is_exit_cmd = false;
+    //         }
+    //     }
+    // }
     Ok(())
 }
 

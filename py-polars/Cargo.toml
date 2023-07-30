@@ -132,7 +132,7 @@ features = [
   "strings",
   "temporal",
   "random",
-  "fmt",
+  #"fmt",
   "dtype-full",
   "rows",
   "round_series",

@@ -2,7 +2,6 @@
 resolver = "2"
 members = [
   "crates/*",
-  "polars-cli",
   "contribution/*",
   "examples/*",
 ]
@@ -15,6 +14,7 @@ version = "0.31.1"
 
 [workspace.dependencies]
 rayon = "1.6"
+rayon-core = "1.6"
 thiserror = "^1"
 num-traits = "0.2"
 ahash = "0.8"

@@ -29,4 +29,12 @@ impl Pool {
     {
         rayon::spawn(func);
     }
+    
+    pub fn current_thread_index(&self) -> Option<usize> {
+        rayon::current_thread_index()
+    }
+
+    pub fn current_thread_has_pending_tasks(&self) -> Option<bool> {
+        rayon_core::current_thread_has_pending_tasks()
+    }
 }
